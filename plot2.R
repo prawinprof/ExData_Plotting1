@@ -1,0 +1,7 @@
+system("grep '^[12]/2/2007' household_power_consumption.txt >> input.txt")
+data <- read.table("input.txt",sep = ";", header = FALSE,colClasses = c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric"),na.strings = "?")
+names(data) <- c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering_1","Sub_metering_2","Sub_metering_3")
+data["datetime"] <- as.POSIXct(paste(as.Date(data$Date,format="%d/%m/%Y"), data$Time), format="%Y-%m-%d %H:%M:%S")
+plot(data$datetime,data$Global_active_power,xlab="",ylab="Global Active Power (Kilowatts)",type = "l")
+dev.copy(png,file="plot2.png")
+dev.off()
